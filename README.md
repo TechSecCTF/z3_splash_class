@@ -1,0 +1,1 @@
+# z3_splash_class
