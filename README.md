@@ -1,12 +1,12 @@
 # Breaking Crypto with Z3   
 
-This repo holds materials for our Splash 2017 class on Z3
+This repo holds materials for our Splash 2017 class on Z3.
 
 ## Getting started with Z3
 
 ### Installing
 
-Download Z3 from [Github](https://github.com/Z3Prover/z3) and run the build script as instructed, with the `--python` option to install Python bindings. 
+Download Z3 from [Github](https://github.com/Z3Prover/z3) and run the build script as instructed, with the `--python` option to install Python bindings.
 
 ### Basics
 
