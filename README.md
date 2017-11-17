@@ -44,10 +44,6 @@ sat
 [triangle = 1, square = 2, circle = 5]
 ```
 
-## Data Types
-
-Z3 includes built-in support for Ints, Reals, Booleans, and BitVectors and several common operations on them.
-
 ## Let's roll!
 
 Let's get warmed up with a relatively easy example — Sudoku
@@ -56,20 +52,83 @@ Sudoku is just a system of equations, and it's simple for Z3 to solve.
 
 ![](https://gwb.blob.core.windows.net/blackrabbitcoder/Windows-Live-Writer/Little-PuzzlersValidate-a-Sudoku-Board_92D9/250px-Sudoku-by-L2G-20050714_svg_thumb.png)
 
-We can do this solely with the Z3 `Int` and `Distinct` types, plus some basic operators `And` and `<=`.  
+We can do this solely with the Z3 `Int` and `Distinct` types, plus some basic operators `And` and `<=`.
 
-But what if you want to find more than one solution? Z3 doesn't have a clean way to do this. You have to encode more constraints into your solver that prevent it from using a previous model.
+Check out `exercises/sudoku.ipynb`. Your task is to add the z3 constraints for the individual cells, columns, and subsquares. (To get you started, we've given you the row constraints). Remember to enforce that the entries are all numbers from 1 to 9.
 
-For the sudoku example, this would look like:
+## Breaking 3SPECK
+
+SPECK is a lightweight block cipher developed by the NSA and published in 2013.
+
+It consists of 3 basic operations done on 64-bit numbers:
+
+### XOR
+The XOR operation is very common in cryptography. It's 0 if the two input bits are the same and 1 if the two input bits are different. When applied to 64-bit numbers, the XOR is computed bit-by-bit:
+
+```
+a = 0b10001111100010001 = 73489
+b = 0b00111001001111000 = 29304
+c = 0b10110110101101001 = 93545 <--- a XOR b
+```
+
+In python, the XOR operation is represented by the caret symbol (^)
 
 ```python
-while s.check() == sat:
-    m = s.model()
-
-    solved = [['.' for i in range(9)] for j in range(9)]
-    for i in range(9):
-        for j in range(9):
-            a = m.evaluate(cells[i][j])
-            solved[i][j] = a
-    s.add(Or(add_constraints(m))) # Add an Or for each square, preventing this solution from being used again
+a = 73489
+b = 29304
+assert a ^ b == 93545
 ```
+
+### Addition
+This is standard grade-school addition. The one thing to note is that if the resulting sum is greater than 64-bits, it "overflows" and we only consider the lower 64 bits.
+
+### Rotations
+In a bit rotation, you literally rotate the bits of the number to the right or left by the amount specified by the operation.
+
+Here is an example of a 3 bit right rotation:
+
+```
+a = 0b10001111100010001 = 73489
+b = 0b00110001111100010 = 25570 <-- a >>> 3
+```
+
+Python doesn't have a native operation for bit rotation, but the following functions will do it for us:
+
+```python
+MASK = (1 << 64) - 1
+
+# Rotate 64 bit integer x right by r
+def ror(x, r):
+  return ((x >> r) | (x << (64 - r))) & MASK
+
+# Rotate 64 bit integer x left by r
+def rol(x, r):
+  return ((x << r) | (x >> (64 - r))) & MASK
+```
+
+### SPECK's round function:
+
+SPECK makes heavy use of the following function `r`, which takes in three 64-bit numbers and modifies the first two numbers based on the third:
+
+```python
+# SPECK round function; x, y, and k are all 64 bits
+def r(x, y, k):
+  x = ror(x, 8)
+  x += y
+  x ^= k
+  y = rol(y, 3)
+  y ^= x
+  return x, y
+```
+
+SPECK (or at least the version we're interested in) operates on 128-bit plaintext blocks. This block is immediately split into two 64-bit blocks, x and y. SPECK's key is also 128 bits long and is also split up into two 64-bit blocks, a and b.
+
+In each round of SPECK, we use apply the `r` function to our plaintext (x and y) using b as the third argument. Then we modify our keys by applying the `r` function to our key (a and b) using the round number as the third argument.
+
+SPECK normally includes 32 rounds. Our variant, 3SPECK, (that Z3 is able to break in a reasonable amount of time) uses only 3 rounds.
+
+![](assets/speck.png)
+
+### Breaking 3SPECK with Z3
+
+Check out `exercises/speck.ipynb`. We've implemented the SPECK cipher for you and provided you with a plaintext / ciphertext pair which uses some unknown key. Your task is to implemented the z3 versions of 3SPECK's encrypt and round functions in order to derive the key. Once you have the key, we'll use it to try to decrypt a new ciphertext
