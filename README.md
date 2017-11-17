@@ -8,7 +8,7 @@ Z3 is a powerful theorem prover developed by Microsoft Research. Essentially, yo
 
 ### Installing
 
-Z3 should already be installed on the computer you're using, but if you want to install it on another computer, you can either follow the instructions [here](https://github.com/Z3Prover/z3) (use the `--python` flag when running `mk_make.py` to install the python bindings), or you can clone this git repository and run `install.sh`.
+Z3 should already be installed on the computer you're using, but if you want to install it on another computer, you can either follow the instructions [here](https://github.com/Z3Prover/Z3) (use the `--python` flag when running `mk_make.py` to install the python bindings), or you can clone this git repository and run `install.sh`.
 
 ### Basics
 
@@ -19,7 +19,7 @@ This image was floating around facebook some time ago, with the caption "ONLY FO
 Check out `examples/only_for_genius.py`, reproduced below:
 
 ```python
-from z3 import *
+from Z3 import *
 
 circle, square, triangle = Ints('circle square triangle')
 s = Solver()
@@ -31,7 +31,8 @@ print s.model()
 ```
 
 Let's go through it line by line:
-* All of our Z3 programs will start with the line `from z3 import *`. This imports all the Z3 python bindings.
+
+* All of our Z3 programs will start with the line `from Z3 import *`. This imports all the Z3 python bindings.
 * Next, we declare three integer variables, `circle`, `square` and `triangle`.
 * Then, we instantiate a new solver `s` and we add our three constraints.
 * Finally, we call the function `s.check()`. In any Z3 program, this function is doing all of the heavy lifting. It checks if a solution exists given our constraints and returns `sat` if yes, and `unsat` if no.
@@ -54,7 +55,7 @@ Sudoku is just a system of equations, and it's simple for Z3 to solve.
 
 We can do this solely with the Z3 `Int` and `Distinct` types, plus some basic operators `And` and `<=`.
 
-Check out `exercises/sudoku.ipynb`. Your task is to add the z3 constraints for the individual cells, columns, and subsquares. (To get you started, we've given you the row constraints). Remember to enforce that the entries are all numbers from 1 to 9.
+Check out `exercises/sudoku.ipynb`. Your task is to add the Z3 constraints for the individual cells, columns, and subsquares. (To get you started, we've given you the row constraints). Remember to enforce that the entries are all numbers from 1 to 9.
 
 ## Breaking 3SPECK
 
@@ -131,4 +132,6 @@ SPECK normally includes 32 rounds. Our variant, 3SPECK, (that Z3 is able to brea
 
 ### Breaking 3SPECK with Z3
 
-Check out `exercises/speck.ipynb`. We've implemented the SPECK cipher for you and provided you with a plaintext / ciphertext pair which uses some unknown key. Your task is to implemented the z3 versions of 3SPECK's encrypt and round functions in order to derive the key. Once you have the key, we'll use it to try to decrypt a new ciphertext
+Check out `exercises/speck.ipynb`. We've implemented the SPECK cipher for you and provided you with a plaintext / ciphertext pair which uses some unknown key. Your task is to implemented the Z3 versions of 3SPECK's encrypt and round functions in order to derive the key. Once you have the key, we'll use it to try to decrypt a new ciphertext.
+
+For this problem, the correct datatype to use are (64 bit) BitVecs, which act like Ints in many ways but support useful operations like `RotateRight` and `RotateLeft`. They also have the nice property that if you add two BitVecs that overflow, the resulting BitVec will only keep track of the last 64 bits.
