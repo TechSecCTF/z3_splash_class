@@ -18,7 +18,7 @@ Z3 is a powerful theorem prover developed by Microsoft Research. Essentially, yo
 * Copy the url that it gives you and paste it into your browser.
 * Double click on `z3_splash_class`. You should be all set.
 
-### Basics
+### Example: ONLY FOR GENiUS
 
 This image was floating around facebook some time ago, with the caption "ONLY FOR GENiUS". Let's find the solution using Z3.
 
@@ -53,7 +53,7 @@ sat
 [triangle = 1, square = 2, circle = 5]
 ```
 
-## Let's roll!
+## Exercise: Sudoku
 
 Let's get warmed up with a relatively easy example — Sudoku
 
@@ -65,7 +65,7 @@ We can do this solely with the Z3 `Int` and `Distinct` types, plus some basic op
 
 Check out `exercises/sudoku.ipynb`. Your task is to add the Z3 constraints for the individual cells, columns, and subsquares. (To get you started, we've given you the row constraints). Remember to enforce that the entries are all numbers from 1 to 9.
 
-## Java Hash function
+## Example: Weak hash function
 
 In computer science, a *hash function* is a function that takes in a string of characters (or any object really), and produces a fixed-size number (the "hash") that corresponds to that string. Importantly, the hashes of two related strings should be different. Hash functions are useful for all sorts of things in computer science (like hashtables). *Cryptographic hash functions* are a special type of hash function which also satisfies a number of properties, one of the most important of which is that given the hash of a string, it should be difficult to reconstruct the string.
 
@@ -75,7 +75,7 @@ Suppose instead the website computes a *hash* of the password when a user regist
 
 The problem is, many people frequently use non-cryptographically secure hash functions for password-checking. In this example, we'll reverse the hash for a website using the same hash function that Java uses for its hash tables. Check out  `examples/java_hash.ipynb` and  `examples/java_hash.html`.
 
-## Breaking 3SPECK
+## Exercise: Breaking 3SPECK
 
 SPECK is a lightweight block cipher developed by the NSA and published in 2013.
 
@@ -155,7 +155,7 @@ Check out `exercises/speck.ipynb`. We've implemented the SPECK cipher for you an
 For this problem, the correct datatype to use are (64 bit) BitVecs, which act like Ints in many ways but support useful operations like `RotateRight` and `RotateLeft`. They also have the nice property that if you add two BitVecs that overflow, the resulting BitVec will only keep track of the last 64 bits.
 
 
-## Breaking xorrayhul64+
+## Exercise: Breaking xorrayhul64+
 
 There are many cases when writing programs that you'd want to have access to a random number generator. Psuedorandom number generators, or PRNGs for short, take a *seed* (some initial random value) and use that seed to produce an infinite stream of random-looking bytes. In contrast, true random number generators, or TRNGS, produce their randomness from environmental factors like radio noise or the weather or random keystrokes. The problem with TRNGs is that they are very slow. In practice PRNGs are usually enough.
 
