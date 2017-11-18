@@ -126,8 +126,8 @@ function drawRouletteWheel() {
 function gamble(){
    wager = document.getElementById('wager').value;
    wager = parseInt(wager);
-   if (isNaN(wager)) {
-    alert("Wager must be a number!");
+   if (isNaN(wager) || wager <= 0) {
+    alert("Wager must be a positive number!");
     return;
    }
    guess = document.getElementById('guess').value;
