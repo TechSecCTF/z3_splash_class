@@ -10,7 +10,7 @@ var spinTimeTotal = 0;
 var MASK = 0xFFFFFFFF
 
 var ctx;
-var desiredText = "";
+var desiredNum = "";
 var wager = "";
 var guess = "";
 var bank = "";
@@ -125,7 +125,11 @@ function drawRouletteWheel() {
 
 function gamble(){
    wager = document.getElementById('wager').value;
-   wager = parseInt(wager)
+   wager = parseInt(wager);
+   if (isNaN(wager)) {
+    alert("Wager must be a number!");
+    return;
+   }
    guess = document.getElementById('guess').value;
    spin(); 
 }
@@ -134,7 +138,7 @@ function spin() {
   spinAngleStart = 10;
 
   // Generate random number
-  desiredText = rng.gen_rand();
+  desiredNum = rng.gen_rand();
 
   spinTime = 0;
   spinTimeTotal = 2000;
@@ -149,12 +153,12 @@ function rotateWheel(callback) {
 
   spinTime += 30;
 
-  if (desiredText == text && spinTime >= spinTimeTotal) {
+  if (desiredNum == text && spinTime >= spinTimeTotal) {
     stopRotateWheel(function(){
-         if (guess == desiredText) {
+         if (guess == desiredNum) {
           alert("Winner! Payout: $" + wager*35);
          } else {
-          alert("Better luck next time :(");
+          alert("You just lost $" + wager+ ". Better luck next time :(");
          }
     });
     return;
