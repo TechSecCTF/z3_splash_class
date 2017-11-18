@@ -10,9 +10,13 @@ var spinTimeTotal = 0;
 var MASK = 0xFFFFFFFF
 
 var ctx;
-var desiredText = "";
+var desiredNum = "";
+var wager = "";
+var guess = "";
+var bank = "";
 
-document.getElementById("spin").addEventListener("click", spin);
+// document.getElementById("spin").addEventListener("click", spin);
+document.getElementById("gamble").addEventListener("click", gamble);
 
 function byte2Hex(n) {
   var nybHexString = "0123456789ABCDEF";
@@ -119,18 +123,29 @@ function drawRouletteWheel() {
   }
 }
 
+function gamble(){
+   wager = document.getElementById('wager').value;
+   wager = parseInt(wager);
+   if (isNaN(wager)) {
+    alert("Wager must be a number!");
+    return;
+   }
+   guess = document.getElementById('guess').value;
+   spin(); 
+}
+
 function spin() {
   spinAngleStart = 10;
 
   // Generate random number
-  desiredText = rng.gen_rand();
+  desiredNum = rng.gen_rand();
 
   spinTime = 0;
   spinTimeTotal = 2000;
   rotateWheel();
 }
 
-function rotateWheel() {
+function rotateWheel(callback) {
   var degrees = startAngle * 180 / Math.PI + 90;
   var arcd = arc * 180 / Math.PI;
   var index = Math.floor((360 - degrees % 360) / arcd);
@@ -138,8 +153,14 @@ function rotateWheel() {
 
   spinTime += 30;
 
-  if (desiredText == text && spinTime >= spinTimeTotal) {
-    stopRotateWheel();
+  if (desiredNum == text && spinTime >= spinTimeTotal) {
+    stopRotateWheel(function(){
+         if (guess == desiredNum) {
+          alert("Winner! Payout: $" + wager*35);
+         } else {
+          alert("You just lost $" + wager+ ". Better luck next time :(");
+         }
+    });
     return;
   }
 
@@ -149,7 +170,7 @@ function rotateWheel() {
   spinTimeout = setTimeout('rotateWheel()', 30);
 }
 
-function stopRotateWheel() {
+function stopRotateWheel(callback) {
   clearTimeout(spinTimeout);
   var degrees = startAngle * 180 / Math.PI + 90;
   var arcd = arc * 180 / Math.PI;
@@ -159,6 +180,7 @@ function stopRotateWheel() {
   var text = options[index]
   ctx.fillText(text, 250 - ctx.measureText(text).width / 2, 250 + 10);
   ctx.restore();
+  callback();
 }
 
 function easeOut(t, b, c, d) {
