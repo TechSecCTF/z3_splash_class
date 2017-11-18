@@ -135,3 +135,19 @@ SPECK normally includes 32 rounds. Our variant, 3SPECK, (that Z3 is able to brea
 Check out `exercises/speck.ipynb`. We've implemented the SPECK cipher for you and provided you with a plaintext / ciphertext pair which uses some unknown key. Your task is to implemented the Z3 versions of 3SPECK's encrypt and round functions in order to derive the key. Once you have the key, we'll use it to try to decrypt a new ciphertext.
 
 For this problem, the correct datatype to use are (64 bit) BitVecs, which act like Ints in many ways but support useful operations like `RotateRight` and `RotateLeft`. They also have the nice property that if you add two BitVecs that overflow, the resulting BitVec will only keep track of the last 64 bits.
+
+
+## Breaking xorrayhul64+
+
+There are many cases when writing programs that you'd want to have access to a random number generator. Psuedorandom number generators, or PRNGs for short, take a *seed* (some initial random value) and use that seed to produce an infinite stream of random-looking bytes. In contrast, true random number generators, or TRNGS, produce their randomness from environmental factors like radio noise or the weather or random keystrokes. The problem with TRNGs is that they are very slow. In practice PRNGs are usually enough.
+
+There is a special class of PRNGs called *cryptographically-secure psuedorandom number generators*, or CSPRNGs. The basic property that these generators satisfy is that even if you get access to the first N random values that it generates (but not the seed), you can't predict anything about the next N values it will generate. You can't use Z3 to break CSPRNGs (if you could, that means something has gone really really wrong with its design), but you can absolutely use Z3 to break non-cryptographically secure PRNGs. And the thing is, people misuse PSRNGs *all the time*.
+
+There's a PRNG called `xorshift128+` (it roughly stands for "XOR, Shift, 128-bits, Plus"), which is the RNG that Chrome and Firefox use for their Javascript engines. It's very fast, but it's also not cryptographically secure. Given a number of its outputs, we can clone the state of the PRNG and exactly predict the rest of the numbers it will generate. In this exercise we'll clone `xorrayhul64+` (a home-brewed variant of the real thing) using Z3 and then use our clone to win a Roulette wheel game.
+
+Check out `exercises/xorrayhul64p-rng.ipynb` and `exercises/roulette.html`.
+
+## Further reading
+
+* (https://yurichev.com/writings/SAT_SMT_draft-EN.pdf)[Quick introduction into SAT/SMT solvers and symbolic execution] - A very good, if lengthy, book on Z3
+* (https://blog.securityevaluators.com/hacking-the-javascript-lottery-80cc437e3b7f)[Hacking the Javascript Lottery] - Cloning Chrome's PRNG to win a javascript game
