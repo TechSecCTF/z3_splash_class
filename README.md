@@ -65,6 +65,16 @@ We can do this solely with the Z3 `Int` and `Distinct` types, plus some basic op
 
 Check out `exercises/sudoku.ipynb`. Your task is to add the Z3 constraints for the individual cells, columns, and subsquares. (To get you started, we've given you the row constraints). Remember to enforce that the entries are all numbers from 1 to 9.
 
+## Java Hash function
+
+In computer science, a *hash function* is a function that takes in a string of characters (or any object really), and produces a fixed-size number (the "hash") that corresponds to that string. Importantly, the hashes of two related strings should be different. Hash functions are useful for all sorts of things in computer science (like hashtables). *Cryptographic hash functions* are a special type of hash function which also satisfies a number of properties, one of the most important of which is that given the hash of a string, it should be difficult to reconstruct the string.
+
+One area where hash functions are very useful are in password checking. When a user registers with a site, they specify a password. Suppose that the webiste records the password in their database. Later when the user logs in, they enter that password and the website checks that it matches the password in their database. But now, if the website's database gets leaked, every user's account is compromised.
+
+Suppose instead the website computes a *hash* of the password when a user registers and stores the hash in their database instead of the password itself. Then, whenever the user logs in, the website can just compute the hash of whatever password is entered and check the hash against whatever is stored in their database. If the database leaks (and the hash is cryptographically secure, and the passwords themselves are sufficiently complex) it should be difficult to easily reverse the hashes and compromise the user accounts.
+
+The problem is, many people frequently use non-cryptographically secure hash functions for password-checking. In this example, we'll reverse the hash for a website using the same hash function that Java uses for its hash tables. Check out  `examples/java_hash.ipynb` and  `examples/java_hash.html`.
+
 ## Breaking 3SPECK
 
 SPECK is a lightweight block cipher developed by the NSA and published in 2013.

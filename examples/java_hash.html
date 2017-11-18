@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Java Hash</title>
+<link rel='stylesheet' href='form-style.css' type='text/css' />
+</head>
+<body onload='document.form1.text1.focus()'>
+<div>
+<h2>LOGIN</h2>
+<form name="form1" action="#">
+<p>Password: </p> <input type='text' name='text1' id='text1'/>
+<input type="submit" name="submit" value="Submit" onclick="CheckPassword(document.getElementById('text1').value)"/></li>
+</form>
+</div>
+<script>
+function CheckPassword(password)
+{
+  hash = 0
+  for (var i = 0, len = password.length; i < len; i++) {
+    hash *= 31
+    hash += password[i].charCodeAt(0);
+  }
+  console.log(hash)
+
+  if(hash == 3229186608006)
+  {
+    alert('Correct!!')
+    return true;
+  }
+  else
+  {
+    alert('Wrong...!')
+    return false;
+  }
+}
+</script>
+</body>
+</html>
