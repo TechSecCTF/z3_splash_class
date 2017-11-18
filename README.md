@@ -55,7 +55,7 @@ sat
 
 ## Exercise: Sudoku
 
-Let's get warmed up with a relatively easy example — Sudoku
+Let's get warmed up with a relatively easy example — Sudoku.
 
 Sudoku is just a system of equations, and it's simple for Z3 to solve.
 
@@ -169,3 +169,4 @@ Check out `exercises/xorrayhul64p-rng.ipynb` and `exercises/roulette.html`.
 
 * (https://yurichev.com/writings/SAT_SMT_draft-EN.pdf)[Quick introduction into SAT/SMT solvers and symbolic execution] - A very good, if lengthy, book on Z3
 * (https://blog.securityevaluators.com/hacking-the-javascript-lottery-80cc437e3b7f)[Hacking the Javascript Lottery] - Cloning Chrome's PRNG to win a javascript game
+* Z3 API - https://z3prover.github.io/api/html/z3.html
