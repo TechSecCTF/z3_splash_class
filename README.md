@@ -10,12 +10,12 @@ Z3 is a powerful theorem prover developed by Microsoft Research. Essentially, yo
 
 * Once you're logged in, double-click and install Anaconda3 on the Desktop
 * While that's installing, navigate to https://github.com/TechSecCTF/z3_splash_class/ in a browser, and click the green "Clone or download" button.
-* Then click "Download Zip", then click the "Save" button on the prompt at the bottom of your screen. Once it's done downloading, click "Open". 
+* Then click "Download Zip", then click the "Save" button on the prompt at the bottom of your screen. Once it's done downloading, click "Open".
 * Right-click on the big folder icon on the right, and click "Extract All"
-* Set it to extract to `C:\Users\espuser`. 
+* Set it to extract to `C:\Users\espuser`.
 * By now, Anaconda3 should have finished installing. Once it's done, click the Windows icon on the bottom-left corner of the screen and click "Anaconda Prompt"
 * Finally, wait for the prompt to load and then type `jupyter notebook`
-* Copy the url that it gives you and paste it into your browser. 
+* Copy the url that it gives you and paste it into your browser.
 * Double click on `z3_splash_class`. You should be all set.
 
 ### Basics
