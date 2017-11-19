@@ -18,9 +18,13 @@ Z3 is a powerful theorem prover developed by Microsoft Research. Essentially, yo
 * Copy the url that it gives you and paste it into your browser.
 * Double click on `z3_splash_class`. You should be all set.
 
+You may also be interested in installing Z3 in a different environment. We have provided an `install.sh` script which should install Z3 successfully OS X or Linux. (You'll need root access). If you want to run the jupyter notebooks, you'll need to download and install [jupyter](http://jupyter.org/install.html). You can then get rid all the path nonsense at the top of the python source code and simply include `from z3 import *`.
+
+Further installation instructions can be found [here](https://github.com/Z3Prover/z3).
+
 ### Example: ONLY FOR GENiUS
 
-This image was floating around facebook some time ago, with the caption "ONLY FOR GENiUS". Let's find the solution using Z3.
+This image was floating around Facebook some time ago, with the caption "ONLY FOR GENiUS". Let's find the solution using Z3.
 
 ![](assets/shapes.png)
 
@@ -77,7 +81,7 @@ The problem is, many people frequently use non-cryptographically secure hash fun
 
 ## Exercise: Breaking 3SPECK
 
-SPECK is a lightweight block cipher developed by the NSA and published in 2013.
+[SPECK](https://en.wikipedia.org/wiki/Speck_(cipher)) is a lightweight block cipher developed by the NSA and published in 2013.
 
 It consists of 3 basic operations done on 64-bit numbers:
 
@@ -161,9 +165,16 @@ There are many cases when writing programs that you'd want to have access to a r
 
 There is a special class of PRNGs called *cryptographically-secure psuedorandom number generators*, or CSPRNGs. The basic property that these generators satisfy is that even if you get access to the first N random values that it generates (but not the seed), you can't predict anything about the next N values it will generate. You can't use Z3 to break CSPRNGs (if you could, that means something has gone really really wrong with its design), but you can absolutely use Z3 to break non-cryptographically secure PRNGs. And the thing is, people misuse PSRNGs *all the time*.
 
-There's a PRNG called `xorshift128+` (it roughly stands for "XOR, Shift, 128-bits, Plus"), which is the RNG that Chrome and Firefox use for their Javascript engines. It's very fast, but it's also not cryptographically secure. Given a number of its outputs, we can clone the state of the PRNG and exactly predict the rest of the numbers it will generate. In this exercise we'll clone `xorrayhul64+` (a home-brewed variant of the real thing) using Z3 and then use our clone to win a Roulette wheel game.
+There's a PRNG called [`xorshift128+`](https://en.wikipedia.org/wiki/Xorshift) (it roughly stands for "XOR, Shift, 128-bits, Plus"), which is the RNG that Chrome and Firefox use for their Javascript engines. It's very fast, but it's also not cryptographically secure. Given a number of its outputs, we can clone the state of the PRNG and exactly predict the rest of the numbers it will generate. In this exercise we'll clone `xorrayhul64+` (a home-brewed variant of the real thing) using Z3 and then use our clone to win a Roulette wheel game.
 
 Check out `exercises/xorrayhul64p-rng.ipynb` and `exercises/roulette.html`.
+
+Hints:
+
+* The website computes the numbers it generates modulo 37 to select a random place on the wheel, but if you check the javascript console log, you can see the raw numbers it generates.
+* This PRNG uses left and right bit shifts, which are similar to left and right bit rotations, except the bits that fall off the edge don't get rotated around to the other end.
+* There is a difference between a *logical* right shift and an *arithmetic* right shift. The former is represented in Z3 using the function `LShR` which takes two arguments: the bit vector to be shifted and the amount to shift by. The latter is represented with the standard python operator `>>`. You'll need to user the former.
+* There is no difference between a logical and arithmetic left shift operator, so you should just use `<<`. Read why [here](http://teaching.idallen.com/dat2343/09f/notes/04bit_operations_shift.txt).
 
 ## Further reading
 
