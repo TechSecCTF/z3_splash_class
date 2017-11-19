@@ -167,6 +167,6 @@ Check out `exercises/xorrayhul64p-rng.ipynb` and `exercises/roulette.html`.
 
 ## Further reading
 
-* (https://yurichev.com/writings/SAT_SMT_draft-EN.pdf)[Quick introduction into SAT/SMT solvers and symbolic execution] - A very good, if lengthy, book on Z3
-* (https://blog.securityevaluators.com/hacking-the-javascript-lottery-80cc437e3b7f)[Hacking the Javascript Lottery] - Cloning Chrome's PRNG to win a javascript game
+* [Quick introduction into SAT/SMT solvers and symbolic execution](https://yurichev.com/writings/SAT_SMT_draft-EN.pdf) - A very good, if lengthy, book on Z3
+* [Hacking the Javascript Lottery](https://blog.securityevaluators.com/hacking-the-javascript-lottery-80cc437e3b7f) - Cloning Chrome's PRNG to win a javascript game
 * Z3 API - https://z3prover.github.io/api/html/z3.html
